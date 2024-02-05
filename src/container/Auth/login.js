@@ -9,7 +9,8 @@ function Login() {
   const { state, dispatch } =useRoleContext();
 
   const loginHandler = (body) => {
-    authService.login(body).then(res => {
+    authService.login(body)
+        .then(res => {
       let data = {
         id: res.data.id,
         name: res.data.firstName,
