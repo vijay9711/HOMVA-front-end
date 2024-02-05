@@ -6,6 +6,8 @@ function reducer(state, action) {
   switch (action.type) {
     case 'update':
       return { id: action.payload.id, name: action.payload.name, role: action.payload.role };
+    case 'clear':
+      return {id: null, name: '', role: ''};
     default:
       return state;
   }
