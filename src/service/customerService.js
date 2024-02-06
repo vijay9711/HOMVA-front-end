@@ -17,5 +17,13 @@ export class CustomerService {
     let url = `${APP_URL}/customers/${id}/offers/${offerId}`;
     return apiHelper.put(url,data);
   }
+  editOffer = (id,offerId,data) => {
+    let url = `${APP_URL}/customers/${id}/offers/${offerId}`;
+    return apiHelper.put(url,data);
+  }
+  deleteOffer = (id,offerId) => {
+    let url = `${APP_URL}/customers/${id}/offers/${offerId}`;
+    return apiHelper.delete(url);
+  }
 }
 export default CustomerService;

@@ -9,6 +9,7 @@ import { Owner } from "../container/Owner";
 import Properties from "../container/Properties";
 import { PropertyDetailsPage } from "../container/propertyDetailsPage";
 import { CustomerOffers } from "../container/Customer/CustomerOffer";
+import { OwnerOffers } from "../container/Owner/Owneroffer";
 export const Router = () => {
   return (
     <div>
@@ -28,6 +29,7 @@ export const Router = () => {
 
         <Route path="owner" element={<Owner />}>
             {/* <Route path="offers" element={<OwnerOffers />} /> */}
+            <Route path="offers" element={<OwnerOffers />} />
             {/* <Route path="properties" element={<OwnerProperties />} /> */}
             {/* <Route path="properties/:id" element={<OwnerPropertyDetails />} /> */}
             {/* <Route path="properties/add" element={<AddProperty />} /> */}
