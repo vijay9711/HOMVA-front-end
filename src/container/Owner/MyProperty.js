@@ -47,7 +47,7 @@ const MyProperty =() => {
                     size={700}
 
                 >
-                    <AddProperty />
+                    <AddProperty propertyAdded={getProperties} />
                 </Drawer>
             </div>
 

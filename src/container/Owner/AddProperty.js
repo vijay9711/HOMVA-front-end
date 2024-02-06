@@ -9,7 +9,7 @@ import PropertiesService from "../../service/propertiesService";
 
 const propertiesService = new PropertiesService();
 
-function AddProperty() {
+function AddProperty({propertyAdded}) {
     const formRef = useRef(null);
     const navigate = useNavigate();
     //const { user } = useContext(UserContext);
@@ -61,24 +61,19 @@ function AddProperty() {
 
         formData.append('file', file);
         for (const [key, value] of Object.entries(data)) {
-            if(["propertyDetails", "address"].includes(key)) {
+            if (["propertyDetails", "address"].includes(key)) {
                 formData.append(key, JSON.stringify(value));
                 continue;
             }
             formData.append(key, value)
         }
         propertiesService.createProperty(formData, state.id)
-            .then((res)=>{ setIsUploading(false); alert("Property Added Successfully"); navigate("/owner/properties") })
-            .catch(e=>{ setIsUploading(false); console.log(e)})
-
-        // userAxios.post(`http://localhost:8080/api/v1/owners/${state.id}/properties`, formData)
-        //     .then(() => { setIsUploading(false); alert("Property Added Successfully"); navigate("/owner/properties") })
-        //     .catch(err => { setIsUploading(false); console.log(err)});
-        // const getProperties = () => {
-        //     propertiesService.getAllProperties().then((res)=>{
-        //         setProperties(res.data.content);
-        //     }).catch(e=>{console.log(e)})
-        // }
+            .then((res) => { 
+                setIsUploading(false); 
+                alert("Property Added Successfully"); 
+                propertyAdded();
+            })
+            .catch(e => { setIsUploading(false); console.log(e) })
     }
 
     if (state && state.status !== 'ACTIVE') {

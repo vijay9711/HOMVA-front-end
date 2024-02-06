@@ -5,7 +5,7 @@ const BASE_URL = "";
 
 export class ApiHelper{
     get(uri) {
-        console.log("url ", uri)
+        // console.log("url ", uri)
         return axios.get( uri, {
             headers:this.getHeaders(),
             withCredentials: false
@@ -51,7 +51,7 @@ export class ApiHelper{
         if(token){
             defaultHeaders.Authorization = `Bearer ${token}`;
         }
-        console.log(" header ", defaultHeaders);
+        // console.log(" header ", defaultHeaders);
         return defaultHeaders
     }
     checkResponse(response) {
