@@ -23,7 +23,7 @@ export class ApiHelper{
     post(uri, data) {
         return axios.post( uri, data, {
             headers:this.getHeaders(),
-            withCredentials: true
+            withCredentials: false
         })
             .then(this.checkResponse)
             .catch(this.handleError)
@@ -31,7 +31,7 @@ export class ApiHelper{
     put(uri, data) {
         return axios.put( uri, data, {
             headers:this.getHeaders(),
-            withCredentials: true
+            withCredentials: false
         })
             .then(this.checkResponse)
             .catch(this.handleError)
