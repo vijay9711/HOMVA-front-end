@@ -7,23 +7,24 @@ const authService = new AuthService();
 function Login() {
   const navigation = useNavigate();
   const formRef = useRef(null);
-  const { state, dispatch } =useRoleContext();
+  const { state, dispatch } = useRoleContext();
   const [query] = useSearchParams();
   const redirect_url = query.get("redirect");
 
   const loginHandler = (body) => {
     authService.login(body)
-        .then(res => {
-      let data = {
-        id: res.data.id,
-        name: res.data.firstName,
-        role: res.data.role,
-        status: res.data.status
-      }
-      localStorage.setItem("token", res.data.accessToken);
-      dispatch({type:'update', payload: data});
-      goTo(res.data.role);
-    }).catch(e=>{console.log(e)});
+      .then(res => {
+        let data = {
+          id: res.data.id,
+          name: res.data.firstName,
+          role: res.data.role,
+          status: res.data.status
+        }
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("data",JSON.stringify(data));
+        dispatch({ type: 'update', payload: data });
+        goTo(res.data.role);
+      }).catch(e => { console.log(e) });
   };
 
   const goTo = (role) => {
@@ -37,7 +38,7 @@ function Login() {
         break;
 
       case "OWNER":
-        navigation("/owner/properties", { replace: true });
+        navigation("/properties", { replace: true });
         break;
 
       case "ADMIN":

@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRoleContext } from "../../context/roleContext";
 import { ArrowDownOnSquareStackIcon } from "@heroicons/react/24/outline";
 import {OfferCard} from "../../component/OfferCard";
-import CustomerService from "../../service/customerService";
+import { OwnerService } from "../../service/ownerService";
 
-const customerService = new CustomerService();
-export const CustomerOffers = () => {
+const ownerService = new OwnerService();
+export const OwnerOffers = () => {
   const [offers, setOffers] = useState([]);
   const { state, dispatch } = useRoleContext();
 
@@ -16,27 +16,23 @@ export const CustomerOffers = () => {
   }, [state]);
 
   const getAllOffer = () => {
-    customerService.getCustomerOffers(state.id).then(res=>{
+    ownerService.getOwnerOffers(state.id).then(res=>{
       setOffers(res.data);
     }).catch(e=>{console.log(e)});
   }
 
-  const onDelete = (event) => {
+  const declineOffer = (event) => {
     console.log(event);
-    // customerService.deleteOfferByCustomerId(state.id, offer.id).then(() => {
-    //   getAllOffer();
-    // })
-    // .catch((err) => console.log(err));
+    ownerService.declineOffer(state.id, event.id).then((res)=>{
+      getAllOffer();
+    }).catch((err) => console.log(err));
   };
 
-  const onEdit = (event) => {
-    console.log(event);
-    // const price = document.getElementById(event).value;
-
-    // customerService.editOfferByCustomerId(state.id, offerId, price).then(()=>{
-    //   getAllOffer();
-    // })
-    // .catch((err) => console.log(err));
+  const approveOffer = (event) => {
+    console.log(event)
+    ownerService.approveOffer(state.id, event.id).then((res)=>{
+      getAllOffer();
+    }).catch((err) => console.log(err));
   };
 
   // vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8
@@ -95,8 +91,8 @@ export const CustomerOffers = () => {
       </div>
 
       <div className="grid gap-8 grid-cols-4">
-            {offers.map((offer) => (
-              <OfferCard offer={offer} parent={'customer'} buttonOne={onEdit} buttonTwo={onDelete} />
+            {offers.map((offer, i) => (
+              <OfferCard offer={offer} key={i} parent={'owner'} buttonOne={declineOffer} buttonTwo={approveOffer} />
             ))}
       </div>
     </div>
