@@ -13,5 +13,16 @@ export class PropertiesService {
     let url = `${APP_URL}/properties/${id}`;
     return apiHelper.get(url);
   }
+  getPropertiesByOwnerId = (id) => {
+    let url = `${APP_URL}/owners/${id}/properties`;
+    return apiHelper.get(url);
+  }
+  createProperty = (body, id) => {
+    console.log(body);
+    console.log(id);
+    let url = `${APP_URL}/owners/${id}/properties`;
+    return apiHelper.post(url, body);
+  }
+
 }
 export default PropertiesService;
