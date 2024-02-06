@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {useRoleContext} from "../../context/roleContext";
-import AuthService from "../path-to-your-authService";
+import AuthService from "../../service/authService";
 
 function Signup() {
     const formRef = useRef(null);
