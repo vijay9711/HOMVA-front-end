@@ -7,11 +7,11 @@ const apiHelper = new ApiHelper();
 export class AuthService {
   login = (data) =>{
     let url = `${APP_URL}/auth/login`;
-    return apiHelper.post(url, data);
+    return apiHelper.loginPost(url, data);
   }
   signup = (data) => {
     let url = `${APP_URL}/auth/signup`;
-    return apiHelper.post(url, data);
+    return apiHelper.loginPost(url, data);
   }
   // getAllPropertiesByCommunityId = (id) => {
   //   let url = `${APP_URL}/communities/${id}/properties`;

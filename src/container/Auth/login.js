@@ -19,6 +19,8 @@ function Login() {
         name: res.data.firstName,
         role: res.data.role
       }
+      localStorage.setItem("token", res.data.accessToken);
+      localStorage.setItem("status", res.data.status);
       dispatch({type:'update', payload: data});
       goTo(res.data.role);
     }).catch(e=>{console.log(e)});

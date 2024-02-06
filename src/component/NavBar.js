@@ -45,7 +45,8 @@ export const NavBar = () => {
   }
 
   const logout = () => {
-    dispatch({ type: 'clear' })
+    dispatch({ type: 'clear' });
+    setMainLink([]);
     localStorage.clear();
     navigation("/");
   };
@@ -99,7 +100,7 @@ export const NavBar = () => {
               )
             }
             {
-              state && state.role == "CUSTOMER" && (
+              state && state.role != "" && (
                 <>
                   <div className="text-white flex items-center"><FontAwesomeIcon icon={faUser} className="mr-1" /> {state.name}</div>
                   <div>

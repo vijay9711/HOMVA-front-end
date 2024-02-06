@@ -7,7 +7,14 @@ export class ApiHelper{
     get(uri) {
         console.log("url ", uri)
         return axios.get( uri, {
-            // headers:this.getHeaders(),
+            headers:this.getHeaders(),
+            withCredentials: false
+        })
+            .then(this.checkResponse)
+            .catch(this.handleError)
+    }
+    loginPost(uri, data) {
+        return axios.post( uri, data, {
             withCredentials: false
         })
             .then(this.checkResponse)
@@ -15,23 +22,23 @@ export class ApiHelper{
     }
     post(uri, data) {
         return axios.post( uri, data, {
-            // headers:this.getHeaders(),
-            withCredentials: false
+            headers:this.getHeaders(),
+            withCredentials: true
         })
             .then(this.checkResponse)
             .catch(this.handleError)
     }
     put(uri, data) {
         return axios.put( uri, data, {
-            // headers:this.getHeaders(),
-            withCredentials: false
+            headers:this.getHeaders(),
+            withCredentials: true
         })
             .then(this.checkResponse)
             .catch(this.handleError)
     }
     delete(uri) {
         return axios.delete( uri, {
-            // headers:this.getHeaders(),
+            headers:this.getHeaders(),
             withCredentials: false
         })
             .then(this.checkResponse)
@@ -39,11 +46,12 @@ export class ApiHelper{
     }
     getHeaders(){
         let defaultHeaders = BASE_URL;
-        defaultHeaders = {
-            // 'x-rapidapi-key': process.env.REACT_APP_RAPID_KEY,
-            // 'x-rapidapi-host':process.env.REACT_APP_RAPID_HOST,
-            'useQueryString':true,
+        defaultHeaders = {};
+        let token = localStorage.getItem('token');
+        if(token){
+            defaultHeaders.Authorization = `Bearer ${token}`;
         }
+        console.log(" header ", defaultHeaders);
         return defaultHeaders
     }
     checkResponse(response) {
