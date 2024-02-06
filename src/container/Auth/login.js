@@ -17,10 +17,10 @@ function Login() {
       let data = {
         id: res.data.id,
         name: res.data.firstName,
-        role: res.data.role
+        role: res.data.role,
+        status: res.data.status
       }
       localStorage.setItem("token", res.data.accessToken);
-      localStorage.setItem("status", res.data.status);
       dispatch({type:'update', payload: data});
       goTo(res.data.role);
     }).catch(e=>{console.log(e)});
