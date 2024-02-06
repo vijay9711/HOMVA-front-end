@@ -5,8 +5,11 @@ import AuthService from "../../service/authService";
 
 const authService = new AuthService();
 function Login() {
+  const navigation = useNavigate();
   const formRef = useRef(null);
   const { state, dispatch } =useRoleContext();
+  const [query] = useSearchParams();
+  const redirect_url = query.get("redirect");
 
   const loginHandler = (body) => {
     authService.login(body)
@@ -17,7 +20,32 @@ function Login() {
         role: res.data.role
       }
       dispatch({type:'update', payload: data});
+      goTo(res.data.role);
     }).catch(e=>{console.log(e)});
+  };
+
+  const goTo = (role) => {
+    switch (role) {
+      case "CUSTOMER":
+        if (redirect_url) {
+          navigation(redirect_url, { replace: true });
+          break;
+        }
+        navigation("/properties", { replace: true });
+        break;
+
+      case "OWNER":
+        navigation("/owner/properties", { replace: true });
+        break;
+
+      case "ADMIN":
+        navigation("/properties", { replace: true });
+        break;
+
+      default:
+        navigation("/", { replace: true });
+        break;
+    }
   };
   const onSubmit = (e) => {
     e.preventDefault();
