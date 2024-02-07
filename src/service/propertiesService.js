@@ -23,6 +23,10 @@ export class PropertiesService {
     let url = `${APP_URL}/owners/${id}/properties`;
     return apiHelper.post(url, body);
   }
+  createOffer = (id, data) => {
+    let url = `${APP_URL}/customers/${id}/offers`;
+    return apiHelper.post(url,data);
+  }
 
 }
 export default PropertiesService;

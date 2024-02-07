@@ -30,10 +30,6 @@ function Login() {
   const goTo = (role) => {
     switch (role) {
       case "CUSTOMER":
-        if (redirect_url) {
-          navigation(redirect_url, { replace: true });
-          break;
-        }
         navigation("/properties", { replace: true });
         break;
 
