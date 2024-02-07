@@ -38,6 +38,7 @@ function Properties() {
     }, [params]);
 
     const getProperties = () => {
+        console.log(params)
         propertiesService.getAllProperties().then((res) => {
             setProperties(res.data.content);
         }).catch(e => {
@@ -45,65 +46,9 @@ function Properties() {
         })
     }
 
-    // const fetchFavs = async () => {
-    //   userAxios
-
-    //     .get(`http://localhost:8080/api/v1/customers/${user.id}/favorites`)
-
-    //     .then(({ data }) => {
-    //       const ids = data.map((dt) => dt.id);
-
-    //       console.log(ids);
-
-    //       setFavs(ids);
-    //     })
-
-    //     .catch((err) => console.log(err));
-    // };
-
-    // const checkIfFav = (pptId) => {
-    //   return favs.includes(pptId);
-    // };
-
     const onClicked = (query) => {
         setParams((prev) => ({...prev, ...query}));
     };
-
-    // const toggleFav = async (id, isFav) => {
-    //   if (isFav) {
-    //     await userAxios
-
-    //       .delete(
-    //         `http://localhost:8080/api/v1/customers/${user.id}/favorites/${id}`
-    //       )
-
-    //       .then(() => {
-    //         const ids = favs.filter((fav) => fav !== id);
-
-    //         console.log(ids);
-
-    //         setFavs(ids);
-    //       })
-
-    //       .catch((err) => console.log(err));
-    //   } else {
-    //     await userAxios
-
-    //       .post(`http://localhost:8080/api/v1/customers/${user.id}/favorites`, {
-    //         customer_id: user.id,
-
-    //         property_id: id,
-    //       })
-
-    //       .then(() => {
-    //         const ids = [...favs, id];
-
-    //         console.log(ids);
-
-    //         setFavs(ids);
-    //       });
-    //   }
-    // };
 
     const handlePageChange = (pageNumber) => {
         setParams((prevParams) => ({
@@ -115,13 +60,7 @@ function Properties() {
 
     return (
         <div className="m-3">
-            <div className="flex justify-end mb-6 items-center">
-                {/* <button
-          onClick={fetchData}
-          className="rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none"
-        >
-          Filter
-        </button> */}
+            {/* <div className="flex justify-end mb-6 items-center">
 
 
                 <div className="mr-3">
@@ -157,7 +96,7 @@ function Properties() {
                 >
                     Clear
                 </button>
-            </div>
+            </div> */}
 
             <div className="grid gap-8 grid-cols-5">
                 {properties.map((pro) => (
