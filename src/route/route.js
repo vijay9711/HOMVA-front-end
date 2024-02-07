@@ -4,7 +4,8 @@ import Login from "../container/Auth/login";
 import { NavBar } from "../component/NavBar";
 import Signup from "../container/Auth/signup";
 import {Admin} from "../container/Admin";
-import { Customer } from "../container/Customer";
+import { Member } from "../container/Members";
+import {Customer} from "../container/Customer"; 
 import { Owner } from "../container/Owner";
 import Properties from "../container/Properties";
 import { PropertyDetailsPage } from "../container/propertyDetailsPage";
@@ -33,8 +34,7 @@ export const Router = () => {
         <Route path="/properties" element={<Properties />} />
         <Route path="properties/:id" element={<PropertyDetailsPage />} />
         <Route path="/admin" element={<Admin/>}>
-            <Route path="customers" element={<Customer />} />
-            <Route path="owners" element={<Owner />} />
+            <Route path="members" element={<Member />} />
         </Route>
 
         <Route path="owner" element={<Owner />}>

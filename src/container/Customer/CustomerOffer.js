@@ -23,15 +23,15 @@ export const CustomerOffers = () => {
 
   const onDelete = (event) => {
     console.log(event);
-    // customerService.deleteOfferByCustomerId(state.id, offer.id).then(() => {
-    //   getAllOffer();
-    // })
-    // .catch((err) => console.log(err));
+    customerService.deleteOfferByCustomerId(state.id, event.id).then(() => {
+      getAllOffer();
+    })
+    .catch((err) => console.log(err));
   };
 
   const onEdit = (event) => {
     console.log(event);
-    // const price = document.getElementById(event).value;
+    const price = document.getElementById(event).value;
 
     // customerService.editOfferByCustomerId(state.id, offerId, price).then(()=>{
     //   getAllOffer();
@@ -96,7 +96,7 @@ export const CustomerOffers = () => {
 
       <div className="grid gap-8 grid-cols-4">
             {offers.map((offer) => (
-              <OfferCard offer={offer} parent={'customer'} buttonOne={onEdit} buttonTwo={onDelete} />
+              <OfferCard offer={offer} parent={'customer'} buttonOne={onDelete} buttonTwo={onEdit} />
             ))}
       </div>
     </div>

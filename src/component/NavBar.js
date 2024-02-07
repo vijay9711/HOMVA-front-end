@@ -21,13 +21,12 @@ export const NavBar = () => {
     ],
     customer: [
       { lable: "Properties", link: "/properties"},
-      { lable: "Favorites", link: "/customer/favorites"},
+      { lable: "My List", link: "/customer/my-list"},
       { lable: "Offers", link: "/customer/offers"},
     ],
     admin: [
       { lable: "Properties", link: "/properties"},
-      { lable: "Owners", link: "/admin/owners"},
-      { lable: "Customers", link: "/admin/customers"},
+      { lable: "Members", link: "/admin/members"},
     ]
   }
   const loadMainLink = () => {

@@ -12,7 +12,6 @@ function Properties() {
     const BASE_URL = "http://localhost:8080/api/v1/properties";
     const [properties, setProperties] = useState([]);
 
-    const [pagination, setPagination] = useState({});
 
     const propertyTypes = ["HOUSE", "APARTMENT", "CONDO", "TOWNHOUSE"];
 
@@ -20,11 +19,9 @@ function Properties() {
 
     const listingTypes = ["RENT", "SALE"];
 
-    const numbers = [1, 2, 3, 4, 5];
-
     const [params, setParams] = useState({});
 
-    const [favs, setFavs] = useState([]);
+    // const [favs, setFavs] = useState([]);
 
     const {state, dispatch} = useRoleContext();
     const [isOpen, setIsOpen] = React.useState(false)
@@ -170,15 +167,6 @@ function Properties() {
                     />
                 ))}
             </div>
-            <button onClick={toggleDrawer}>Show</button>
-            <Drawer
-                open={isOpen}
-                onClose={toggleDrawer}
-                direction='right'
-                className='bla bla bla'
-            >
-                <div>Hello World</div>
-            </Drawer>
         </div>
     );
 }
