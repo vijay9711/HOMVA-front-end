@@ -232,17 +232,12 @@ function Signup() {
 
 
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center h-screen -mt-10">
             <form
-                className="flex border px-8 py-8 rounded-md flex-col"
+                className="flex border px-8 py-8 rounded-md flex-col m-auto"
                 ref={formRef}
                 onSubmit={onSubmit}
             >
-                <img
-                    className="hidden h-8 w-auto lg:block mb-3"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
-                    alt="Your Company"
-                />
                 <h1 className="text-center text-lg mb-6 font-medium">Signup</h1>
                 <input
                     required

@@ -96,11 +96,6 @@ function AddProperty({propertyAdded}) {
                 onSubmit={AddHandler}
                 className="flex border px-24 py-12 rounded-md flex-col"
             >
-                <img
-                    className="hidden h-8 w-auto lg:block mb-3"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                />
                 <h1 className="text-center text-lg mb-6 font-medium">
                     Add your property
                 </h1>
