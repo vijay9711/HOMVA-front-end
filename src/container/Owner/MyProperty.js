@@ -14,7 +14,6 @@ const MyProperty =() => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [properties, setProperties] = useState([]);
     const { state, dispatch } = useRoleContext();
-
     useEffect(() => {
         // fetchData();
         getProperties();
@@ -27,7 +26,12 @@ const MyProperty =() => {
             setProperties(res.data);
         }).catch(e=>{console.log(e)})
     }
-
+    const deleteProperty = (data) => {
+        console.log("deleteProperty ", data.id);
+        propertiesService.deletePropertyById(state.id, data.id).then(res=>{
+            getProperties();
+        }).catch(e=>{console.log(e)});
+    }
     const addPropertyToggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
     };
@@ -56,6 +60,8 @@ const MyProperty =() => {
                         <Property
                             key={pro.id}
                             data={pro}
+                            isDelete={true}
+                            deleteProperty={deleteProperty}
                         />
                     ))}
                 </div>

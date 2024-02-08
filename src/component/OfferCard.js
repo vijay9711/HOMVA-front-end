@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { PropertyDetailsPage } from "../container/propertyDetailsPage";
 import Drawer from "react-modern-drawer";
-
+import { type } from "@testing-library/user-event/dist/type";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 export const OfferCard = ({ offer, parent, buttonOne, buttonTwo }) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isEdit, setIsEdit] = useState(true);
+  let newPrice = 0;
   const getDifference = () => {
     let price = offer.property?.price - offer.price;
     return price > 0 ? price : price * -1;
@@ -26,9 +30,23 @@ export const OfferCard = ({ offer, parent, buttonOne, buttonTwo }) => {
       buttonOne(event);
     }
   }
+  const cancelEdit = () => {
+    // buttonTwo(null);
+    newPrice = 0;
+    setIsEdit(true);
+  }
+  const makeNewPrice = (offer, newPrice) => {
+    buttonTwo(offer, newPrice);
+    newPrice = 0;
+    setIsEdit(true);
+  }
   const buttonTwoEvent = (event) => {
     console.log(event);
-    buttonTwo(event);
+    if (parent == "customer") {
+      setIsEdit(false);
+    } else {
+      buttonTwo(event);
+    }
   }
   const getAddress = (data) => {
     let address = `${data.address?.street}, ${data.address?.city}, ${data.address?.state} 
@@ -83,36 +101,50 @@ export const OfferCard = ({ offer, parent, buttonOne, buttonTwo }) => {
           <img src={imageSrc} alt="" className="h-full w-full rounded-lg rounded-br-none rounded-bl-none" />
         </div>
         <div className="p-3">
-        <div onClick={()=>setIsOpen((prevState) => !prevState)}>
-          <div className="grid grid-cols-2 mb-3">
-            <div>
-              {offer.property?.listingType}
-            </div>
-            <div>
-              <div className={`${getTagColor(offer.status)} p-1 border text-slate-900 px-2 items-center align-center w-fit ml-auto rounded-lg `}>
-                {offer.status}
+          <div>
+            <div className="grid grid-cols-2 mb-3" onClick={() => setIsOpen((prevState) => !prevState)}>
+              <div>
+                {offer.property?.listingType}
+              </div>
+              <div>
+                <div className={`${getTagColor(offer.status)} p-1 border text-slate-900 px-2 items-center align-center w-fit ml-auto rounded-lg `}>
+                  {offer.status}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 items-center text-center">
-            <div>
-              Your Price
+            <div className="grid grid-cols-2 items-center text-center">
+              <div>
+                Price
+              </div>
+              <div>
+                Offered Price
+              </div>
             </div>
-            <div>
-              Offer Price
+            <div className="grid grid-cols-2 items-center text-center">
+              <div className="font-bold text-2xl">
+                {offer.property?.price}
+              </div>
+              <div className="font-bold text-2xl">
+                {
+                  isEdit ?
+                    <div>
+                      {offer.price}
+                    </div> :
+                    <div className="flex justify-between">
+                      <input className="border w-[70px] rounded-md px-2" type="number" onChange={(e)=>{newPrice = e.target.value}} />
+                      <button onClick={() => { makeNewPrice({offer, newPrice}) }} className="border border-green-500 bg-green-300 text-green-600 text-lg font-bold p-1 px-3 ml-2 rounded-lg">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </button>
+                      <button onClick={() => { cancelEdit() }} className="border border-red-500 bg-red-300 text-red-600 text-lg font-bold p-1 px-3 ml-2 rounded-lg">
+                        <FontAwesomeIcon icon={faXmark} />
+                      </button>
+                    </div>
+                }
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 items-center text-center">
-            <div className="font-bold text-2xl">
-              {offer.property?.price}
+            <div className="mt-3">
+              Address : {getAddress(offer.property)}
             </div>
-            <div className="font-bold text-2xl">
-              {offer.price}
-            </div>
-          </div>
-          <div className="mt-3">
-            Address : {getAddress(offer.property)}
-          </div>
           </div>
           {
             getAction(offer, offer.property)
@@ -120,13 +152,12 @@ export const OfferCard = ({ offer, parent, buttonOne, buttonTwo }) => {
         </div>
         <Drawer
           open={isOpen}
-          onClose={()=>setIsOpen((prevState) => !prevState)}
+          onClose={() => setIsOpen((prevState) => !prevState)}
           direction='right'
           className='absolute transition-all duration-900 right-36 group-hover:right-0 overflow-y-auto'
           size={700}
 
         >
-          
           <PropertyDetailsPage propId={offer?.property?.id} />
         </Drawer>
       </div>

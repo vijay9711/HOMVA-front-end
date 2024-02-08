@@ -30,13 +30,12 @@ export const CustomerOffers = () => {
   };
 
   const onEdit = (event) => {
+    let price = {price :event.newPrice }
     console.log(event);
-    const price = document.getElementById(event).value;
-
-    // customerService.editOfferByCustomerId(state.id, offerId, price).then(()=>{
-    //   getAllOffer();
-    // })
-    // .catch((err) => console.log(err));
+    customerService.editOfferByCustomerId(state.id, event.offer.id, price).then(()=>{
+      getAllOffer();
+    })
+    .catch((err) => console.log(err));
   };
 
   // vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8
