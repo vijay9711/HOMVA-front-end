@@ -2,6 +2,7 @@ import React, { useContext, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useRoleContext } from "../../context/roleContext";
 import AuthService from "../../service/authService";
+import Swal from 'sweetalert2'
 
 const authService = new AuthService();
 function Login() {
@@ -23,28 +24,13 @@ function Login() {
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("data",JSON.stringify(data));
         dispatch({ type: 'update', payload: data });
-        goTo(res.data.role);
-      }).catch(e => { console.log(e) });
-  };
-
-  const goTo = (role) => {
-    switch (role) {
-      case "CUSTOMER":
         navigation("/properties", { replace: true });
-        break;
-
-      case "OWNER":
-        navigation("/properties", { replace: true });
-        break;
-
-      case "ADMIN":
-        navigation("/properties", { replace: true });
-        break;
-
-      default:
-        navigation("/", { replace: true });
-        break;
-    }
+      }).catch(e => { 
+        Swal.fire({
+          title: 'Something went wrong! Try again.',
+          icon: 'warning'
+        })
+       });
   };
   const onSubmit = (e) => {
     e.preventDefault();

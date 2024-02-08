@@ -56,7 +56,6 @@ function EditProperty({ propertyAdded, id }) {
       cooling: form["cooling"].value,
       heater: form["heater"].value,
       deposit: form["deposit"].value,
-      // },
       ownerId: state.id
     };
     onUploadHandler(body)

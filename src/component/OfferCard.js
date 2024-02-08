@@ -102,9 +102,10 @@ export const OfferCard = ({ offer, parent, buttonOne, buttonTwo }) => {
         </div>
         <div className="p-3">
           <div>
-            <div className="grid grid-cols-2 mb-3" onClick={() => setIsOpen((prevState) => !prevState)}>
+            <div className="grid grid-cols-2 mb-3" >
               <div>
                 {offer.property?.listingType}
+                <span onClick={() => setIsOpen((prevState) => !prevState)} className="text-blue-500 cursor-pointer ml-2 hover:text-blue-700 duration-200">View More</span>
               </div>
               <div>
                 <div className={`${getTagColor(offer.status)} p-1 border text-slate-900 px-2 items-center align-center w-fit ml-auto rounded-lg `}>

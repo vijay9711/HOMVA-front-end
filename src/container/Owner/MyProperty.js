@@ -5,6 +5,7 @@ import AddProperty from "./AddProperty";
 import {Property} from "../../component/Property";
 import PropertiesService from "../../service/propertiesService";
 import {useRoleContext} from "../../context/roleContext";
+import Swal from 'sweetalert2'
 
 const propertiesService = new PropertiesService();
 
@@ -26,11 +27,26 @@ const MyProperty =() => {
             setProperties(res.data);
         }).catch(e=>{console.log(e)})
     }
+    const propertyAdded = () => {
+        getProperties();
+        setIsOpen(false);
+        Swal.fire({
+            title: 'Property added successfully!',
+            icon: 'success'
+          })
+    }
     const deleteProperty = (data) => {
-        console.log("deleteProperty ", data.id);
-        propertiesService.deletePropertyById(state.id, data.id).then(res=>{
-            getProperties();
-        }).catch(e=>{console.log(e)});
+        console.log("deleteProperty ", data);
+        if(data.propertyStatus == "CONTINGENT" || data.propertyStatus == "SOLD"){
+            
+        Swal.fire({
+            title: `You can't delete ${data.propertyStatus} property.`,
+            icon: 'error'
+          })
+        }
+        // propertiesService.deletePropertyById(state.id, data.id).then(res=>{
+        //     getProperties();
+        // }).catch(e=>{console.log(e)});
     }
     const addPropertyToggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
@@ -51,7 +67,7 @@ const MyProperty =() => {
                     size={700}
 
                 >
-                    <AddProperty propertyAdded={getProperties} />
+                    <AddProperty propertyAdded={propertyAdded} />
                 </Drawer>
             </div>
 

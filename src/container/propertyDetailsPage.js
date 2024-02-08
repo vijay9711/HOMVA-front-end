@@ -5,6 +5,7 @@ import PropertiesService from "../service/propertiesService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark, faDog, faHouse, faToolbox, faFan, faSnowflake, faBed, faShower, faRuler } from "@fortawesome/free-solid-svg-icons";
 import CustomerService from "../service/customerService";
+import Swal from 'sweetalert2'
 
 const propertiesService = new PropertiesService();
 export const PropertyDetailsPage = ({ propId }) => {
@@ -24,6 +25,10 @@ export const PropertyDetailsPage = ({ propId }) => {
     console.log(body);
     propertiesService.createOffer(state.id, body).then((res)=>{
       setEditOffer(false);
+      Swal.fire({
+        title: 'Offer submitted!',
+        icon: 'success'
+      })
     }).catch(e=>{
       console.log(e);
     })
@@ -50,6 +55,18 @@ export const PropertyDetailsPage = ({ propId }) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const getTagColor = (status) => {
+    switch (status) {
+      case 'AVAILABLE':
+        return "bg-green-200 border-green-300 text-green-800";
+      case 'PENDING':
+        return "bg-yellow-200 border-yellow-300 text-yellow-800";
+      case 'CONTINGENT':
+        return "bg-red-200 border-red-300 text-red-800";
+      default:
+        return 'bg-gray-200 broder-gray-300 text-gray-800'
+    }
+  }
   return (
     <>
       {property && (
@@ -110,25 +127,7 @@ export const PropertyDetailsPage = ({ propId }) => {
                     </p>
                   </div>
                   <div className="mt-2 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill={
-                        property.propertyStatus === "AVAILABLE"
-                          ? "rgb(54, 179, 150)"
-                          : property.propertyStatus === "PENDING"
-                            ? "#FFC300"
-                            : "#C70039"
-                      }
-                      className="w-6 h-6"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.5 7.5a3 3 0 013-3h9a3 3 0 013 3v9a3 3 0 01-3 3h-9a3 3 0 01-3-3v-9z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <label className="text-gray-600">
+                    <label className={`${getTagColor(property.propertyStatus)} border rounded px-2`}>
                       {property.propertyStatus}
                     </label>
                   </div>

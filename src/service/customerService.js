@@ -25,5 +25,17 @@ export class CustomerService {
     let url = `${APP_URL}/customers/${id}/offers/${offerId}`;
     return apiHelper.delete(url);
   }
+  myList = (id) => {
+    let url = `${APP_URL}/customers/${id}/favorites`;
+    return apiHelper.get(url);
+  }
+  bookmarkProperty = (id,data) => {
+    let url = `${APP_URL}/customers/${id}/favorites`;
+    return apiHelper.post(url,data);
+  }
+  removeBookmark= (id, pid) => {
+    let url = `${APP_URL}/customers/${id}/favorites/${pid}`;
+    return apiHelper.delete(url);
+  }
 }
 export default CustomerService;
