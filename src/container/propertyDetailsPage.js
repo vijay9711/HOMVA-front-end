@@ -69,7 +69,7 @@ export const PropertyDetailsPage = ({ propId }) => {
                     <div className={`${property.listingType == "SALE" ? "bg-red-100 text-red-800 " : "bg-blue-100 text-blue-800"} text-xl w-fit font-medium me-2 px-2.5 py-0.5 mt-2 rounded`}>FOR {property.listingType}</div>
 
                     <div className="flex mt-4">
-                      {((state && state.role === "CUSTOMER")) && (
+                      {((state && state.role === "CUSTOMER")) && state.propertyStatus != "SOLD" && state.propertyStatus != "CONTINGENT" && (
                         <div
                           onClick={() => setEditOffer(true)}
                           className="rounded-md bg-blue-600 text-white font-semibold px-4 py-2 mr-2 hover:bg-blue-700 transition duration-300"
