@@ -3,15 +3,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useRoleContext } from "../context/roleContext";
-import { faShower, faBed } from "@fortawesome/free-solid-svg-icons";
+import { faShower, faBed, faXmark, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css'
 import { PropertyDetailsPage } from "../container/propertyDetailsPage";
-export const Property = ({ data }) => {
+import EditProperty from "../container/Owner/EditProperty";
+export const Property = ({ data, isDelete, deleteProperty }) => {
   const { state, dispatch } = useRoleContext();
 
   const [imageSrc, setImageSrc] = useState(null);
+  const [isEditProperty, setIsEditProperty] = useState(false);
+  const [editData, setEditData] = useState('');
 
   useEffect(() => {
     fetch(data.photos[0]?.link)
@@ -29,6 +32,19 @@ export const Property = ({ data }) => {
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   }
+  const toggleEdit = () => {
+    setIsOpen((prevState) => !prevState);
+    setIsEditProperty((prevState) => !prevState);
+  }
+  const deleteProp = (data) =>{
+    deleteProperty(data);
+    setIsOpen((prevState) => !prevState);
+  }
+  const editProp = () => {
+    console.log("reder")
+    setIsOpen((prevState) => !prevState);
+
+  }
   const getAddress = () => {
     let address = `${data.address?.street}, ${data.address?.city}, ${data.address?.state} 
     ${data.address?.zipcode}`
@@ -41,12 +57,25 @@ export const Property = ({ data }) => {
   return (
     <div className="max-w-sm  rounded overflow-hidden shadow-md hover:shadow-lg duration-150">
       <div
-        to={"/properties/" + data.id}
         onClick={toggleDrawer}
-        className=""
+        className="z-10"
       >
-        <div className="w-full relative h-40">
+        <div className="w-full relative h-40 group duration-200">
           <img src={imageSrc} alt="" className="h-full w-full" />
+          {
+            isDelete ?
+              <>
+                <div className="invisible group-hover:visible flex flex-row duration-200 absolute top-1 right-1">
+                  <button onClick={()=>{deleteProp(data)}} className="bg-red-300 z-20 cursor-pointer px-2  p-1 items-center text-center flex border border-red-400 rounded-lg">
+                    <FontAwesomeIcon icon={faXmark} className="text-red-700" />
+                  </button>
+                  <button onClick={()=>{toggleEdit()}} className="bg-blue-300 ml-2 cursor-pointer px-2 p-1 items-center text-center flex  border border-blue-400 rounded-lg">
+                    <FontAwesomeIcon icon={faPen} className="text-blue-700" />
+                  </button>
+                </div>
+              </> : null
+          }
+
         </div>
         <div className="p-3 flex flex-col">
           <div className="flex justify-between">
@@ -82,10 +111,19 @@ export const Property = ({ data }) => {
         open={isOpen}
         onClose={toggleDrawer}
         direction='right'
-        className='absolute transition-all duration-900 right-36 group-hover:right-0'
+        className='absolute transition-all duration-900 right-36 group-hover:right-0  overflow-y-auto'
         size={700}
       >
         <PropertyDetailsPage propId={data.id} />
+      </Drawer>
+      <Drawer
+        open={isEditProperty}
+        onClose={toggleEdit}
+        direction='right'
+        className='absolute transition-all duration-900 right-36 group-hover:right-0  overflow-y-auto'
+        size={700}
+      >
+        <EditProperty id={data.id}/>
       </Drawer>
       {/* } */}
 
