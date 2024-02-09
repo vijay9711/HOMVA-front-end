@@ -14,6 +14,7 @@ import { OwnerOffers } from "../container/Owner/Owneroffer";
 import MyProperty from "../container/Owner/MyProperty";
 import { useRoleContext } from "../context/roleContext";
 import { MyList } from "../container/Customer/myList";
+import { AboutUs } from "../container/AboutUs";
 export const Router = () => {
   const {state, dispatch} = useRoleContext();
 
@@ -34,6 +35,7 @@ export const Router = () => {
         <Route path="/" element={<Properties />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="properties/:id" element={<PropertyDetailsPage />} />
+        <Route path="/about-us" element={<AboutUs/>}/>
         <Route path="/admin" element={<Admin/>}>
             <Route path="members" element={<Member />} />
         </Route>
