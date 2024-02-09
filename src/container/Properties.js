@@ -22,7 +22,9 @@ function Properties() {
 
     const getProperties = () => {
         propertiesService.getAllProperties().then((res) => {
-            getMyList(res.data.content);
+            if(state.id != null){
+                getMyList(res.data.content);
+            }
             setProperties(res.data.content);
         }).catch(e => {
             console.log(e)

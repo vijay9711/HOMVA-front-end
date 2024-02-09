@@ -12,8 +12,9 @@ export const MyList = () => {
     getMyList();
   }, [])
   const getMyList = () => {
-    customerService.myList(state.id).then(res => {
-      console.log(res);
+    console.log(state, " from my list");
+    customerService.myList(state?.id).then(res => {
+      res.data.map(item => item.isFav = true);
       setProperties(res.data);
     }).catch(e => {
       console.log(e);
@@ -21,10 +22,11 @@ export const MyList = () => {
   }
   return (
     <>
-      <div className="m-3">
-        <div className="grid gap-8 grid-cols-5">
+      <div className="m-6">
+      <div className="font-bold text-3xl">My List</div>
+        <div className="grid gap-8 grid-cols-5 mt-4">
           {
-            properties.map(data => {
+            properties.map((data) => {
               return (<>
                 <Property
                   key={data.id}
@@ -36,7 +38,6 @@ export const MyList = () => {
           }
         </div>
       </div>
-      <div>My list</div>
     </>
   )
 }
