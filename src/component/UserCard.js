@@ -35,13 +35,13 @@ export const UserCard = ({ data, type, ownerAction }) => {
 
           <div className="grid grid-cols-2 gap-1">
             <div className="col-span-1">
-              Properties: {data.properties.length}
+              Properties: {data?.properties?.length}
             </div>
             {
               type == "Customer" &&
               <>
                 <div className="col-span-1">
-                  Offers: {data.offers.length}
+                  Offers: {data?.offers?.length}
                 </div>
               </>
             }

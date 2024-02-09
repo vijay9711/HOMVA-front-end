@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Drawer from "react-modern-drawer";
 
 import AddProperty from "./AddProperty";
-import {Property} from "../../component/Property";
+import { Property } from "../../component/Property";
 import PropertiesService from "../../service/propertiesService";
-import {useRoleContext} from "../../context/roleContext";
+import { useRoleContext } from "../../context/roleContext";
 import Swal from 'sweetalert2'
 
 const propertiesService = new PropertiesService();
 
-const MyProperty =() => {
+const MyProperty = () => {
 
     const [params, setParams] = useState({});
     const [isOpen, setIsOpen] = React.useState(false);
@@ -23,9 +23,9 @@ const MyProperty =() => {
 
     const getProperties = () => {
         propertiesService.getPropertiesByOwnerId(state.id)
-            .then((res)=>{
-            setProperties(res.data);
-        }).catch(e=>{console.log(e)})
+            .then((res) => {
+                setProperties(res.data);
+            }).catch(e => { console.log(e) })
     }
     const propertyAdded = () => {
         getProperties();
@@ -33,20 +33,24 @@ const MyProperty =() => {
         Swal.fire({
             title: 'Property added successfully!',
             icon: 'success'
-          })
+        })
     }
     const deleteProperty = (data) => {
         console.log("deleteProperty ", data);
-        if(data.propertyStatus == "CONTINGENT" || data.propertyStatus == "SOLD"){
-            
-        Swal.fire({
-            title: `You can't delete ${data.propertyStatus} property.`,
-            icon: 'error'
-          })
+        if (data.propertyStatus == "CONTINGENT" || data.propertyStatus == "SOLD") {
+            Swal.fire({
+                title: `You can't delete ${data.propertyStatus} property.`,
+                icon: 'error'
+            })
+        } else {
+            propertiesService.deletePropertyById(state.id, data.id).then(res => {
+                getProperties();
+                Swal.fire({
+                    title: `Property deleted successfully.`,
+                    icon: 'success'
+                })
+            }).catch(e => { console.log(e) });
         }
-        // propertiesService.deletePropertyById(state.id, data.id).then(res=>{
-        //     getProperties();
-        // }).catch(e=>{console.log(e)});
     }
     const addPropertyToggleDrawer = () => {
         setIsOpen((prevState) => !prevState);
@@ -71,16 +75,16 @@ const MyProperty =() => {
                 </Drawer>
             </div>
 
-                <div className="grid gap-8 grid-cols-5">
-                    {properties.map((pro) => (
-                        <Property
-                            key={pro.id}
-                            data={pro}
-                            isDelete={true}
-                            deleteProperty={deleteProperty}
-                        />
-                    ))}
-                </div>
+            <div className="grid gap-8 grid-cols-5">
+                {properties.map((pro) => (
+                    <Property
+                        key={pro.id}
+                        data={pro}
+                        isDelete={true}
+                        deleteProperty={deleteProperty}
+                    />
+                ))}
+            </div>
 
 
         </div>

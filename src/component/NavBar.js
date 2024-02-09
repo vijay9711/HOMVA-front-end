@@ -19,15 +19,18 @@ export const NavBar = () => {
       { lable: "Properties", link: "/properties"},
       { lable: "My Properties", link: "/owner/properties/my-property"},
       { lable: "Offers", link: "/owner/offers"},
+      { lable: "About Us", link: "/about-us"},
     ],
     customer: [
       { lable: "Properties", link: "/properties"},
       { lable: "My List", link: "/customer/my-list"},
       { lable: "Offers", link: "/customer/offers"},
+      { lable: "About Us", link: "/about-us"},
     ],
     admin: [
       { lable: "Properties", link: "/properties"},
       { lable: "Members", link: "/admin/members"},
+      { lable: "About Us", link: "/about-us"},
     ]
   }
   const loadMainLink = () => {
