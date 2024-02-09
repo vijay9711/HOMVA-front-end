@@ -3,7 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useRoleContext } from "../context/roleContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-
+import logo from "../assets/logo.svg";
+import logo2 from "../assets/logo2.svg";
 
 export const NavBar = () => {
   const { state, dispatch } = useRoleContext();
@@ -18,15 +19,18 @@ export const NavBar = () => {
       { lable: "Properties", link: "/properties"},
       { lable: "My Properties", link: "/owner/properties/my-property"},
       { lable: "Offers", link: "/owner/offers"},
+      { lable: "About Us", link: "/about-us"},
     ],
     customer: [
       { lable: "Properties", link: "/properties"},
       { lable: "My List", link: "/customer/my-list"},
       { lable: "Offers", link: "/customer/offers"},
+      { lable: "About Us", link: "/about-us"},
     ],
     admin: [
       { lable: "Properties", link: "/properties"},
       { lable: "Members", link: "/admin/members"},
+      { lable: "About Us", link: "/about-us"},
     ]
   }
   const loadMainLink = () => {
@@ -63,8 +67,9 @@ export const NavBar = () => {
     <nav class="bg-gray-900 border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-          <span class="self-center text-white text-2xl font-semibold whitespace-nowrap dark:text-white">HOMVA</span>
+          {/* <img src={logo2} class="h-8" alt="Flowbite Logo" /> */}
+          {/* <span class="self-center text-white text-2xl font-semibold whitespace-nowrap dark:text-white">HOMVA</span> */}
+          <img src={logo} class="h-8"/>
         </a>
         <div class="w-full md:block md:w-auto" id="navbar-default">
           <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border-none border-gray-100 rounded-lg bg-gray-900 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">

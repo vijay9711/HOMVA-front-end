@@ -36,9 +36,9 @@ export const Member = () => {
     }
     setParams((prev) => ({...prev, ...query}));
   };
-  const ownerAction = (id,event) => {
-    console.log("decline", event);
-    if(event == "Approve"){
+  const ownerAction = (id,type) => {
+    console.log("decline", type);
+    if(type == "Approve"){
       adminService.activateOwner(id).then(res=>{
         console.log(res);
         alert('user approved');
@@ -69,7 +69,7 @@ export const Member = () => {
         members.map(res=>{
           return (
             <>
-              <UserCard data={res} type={params.memberType} ownerAction={(event)=>ownerAction(event)}/>
+              <UserCard data={res} type={params.memberType} ownerAction={(id, type)=>ownerAction(id, type)}/>
             </>
           )
         })

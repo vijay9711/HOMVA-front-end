@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRoleContext } from "../../context/roleContext";
 import { ArrowDownOnSquareStackIcon } from "@heroicons/react/24/outline";
-import {OfferCard} from "../../component/OfferCard";
+import { OfferCard } from "../../component/OfferCard";
 import CustomerService from "../../service/customerService";
 
 const customerService = new CustomerService();
@@ -16,9 +16,9 @@ export const CustomerOffers = () => {
   }, [state]);
 
   const getAllOffer = () => {
-    customerService.getCustomerOffers(state.id).then(res=>{
+    customerService.getCustomerOffers(state.id).then(res => {
       setOffers(res.data);
-    }).catch(e=>{console.log(e)});
+    }).catch(e => { console.log(e) });
   }
 
   const onDelete = (event) => {
@@ -26,17 +26,16 @@ export const CustomerOffers = () => {
     customerService.deleteOfferByCustomerId(state.id, event.id).then(() => {
       getAllOffer();
     })
-    .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   const onEdit = (event) => {
+    let price = { price: event.newPrice }
     console.log(event);
-    const price = document.getElementById(event).value;
-
-    // customerService.editOfferByCustomerId(state.id, offerId, price).then(()=>{
-    //   getAllOffer();
-    // })
-    // .catch((err) => console.log(err));
+    customerService.editOfferByCustomerId(state.id, event.offer.id, price).then(() => {
+      getAllOffer();
+    })
+      .catch((err) => console.log(err));
   };
 
   // vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8
@@ -80,9 +79,9 @@ export const CustomerOffers = () => {
   };
 
   return (
-    <div className="flex flex-col m-5">
+    <div className="flex flex-col m-5 overflow-y-auto">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-medium">My Offers</h1>
+        <h1 className="text-xl font-medium">My Offers {offers.length == 0 && (<h1 className="font-bold text-2xl">No Offers yet</h1>)}</h1>
         {offers.length > 0 && (
           <button
             onClick={onDownload}
@@ -93,11 +92,10 @@ export const CustomerOffers = () => {
           </button>
         )}
       </div>
-
       <div className="grid gap-8 grid-cols-4">
-            {offers.map((offer) => (
-              <OfferCard offer={offer} parent={'customer'} buttonOne={onDelete} buttonTwo={onEdit} />
-            ))}
+        {offers.map((offer) => (
+          <OfferCard offer={offer} parent={'customer'} buttonOne={onDelete} buttonTwo={onEdit} />
+        ))}
       </div>
     </div>
   );

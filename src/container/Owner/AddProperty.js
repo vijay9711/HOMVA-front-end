@@ -78,11 +78,8 @@ function AddProperty({propertyAdded}) {
 
     if (state && state.status !== 'ACTIVE') {
         return (
-            <div className="flex flex-col items-center">
-                <h1 className="flex items-center font-semibold text-3xl text-gray-800 mb-4">
-                    Your account is under review <ExclamationTriangleIcon className="ml-2 mt-1 h-8 w-8 text-yellow-600" aria-hidden="true" />
-                </h1>
-                <p className="text-gray-500 text-xl">
+            <div className="flex flex-col items-center justify-center h-screen">
+                <p className="text-gray-500 text-xl m-auto">
                     Admin has to activate your account before you are able to post properties.
                 </p>
             </div>

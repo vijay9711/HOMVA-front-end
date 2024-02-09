@@ -28,5 +28,15 @@ export class PropertiesService {
     return apiHelper.post(url,data);
   }
 
+  deletePropertyById = (id, pId)=>{
+    let url = `${APP_URL}/owners/${id}/properties/${pId}`;
+    return apiHelper.delete(url);
+  }
+
+  updatePropertyById = (id, pId, data)=>{
+    let url = `${APP_URL}/owners/${id}/properties/${pId}`;
+    return apiHelper.put(url, data);
+  }
+
 }
 export default PropertiesService;
