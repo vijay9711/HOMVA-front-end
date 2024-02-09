@@ -7,6 +7,7 @@ import CustomerService from "../service/customerService";
 
 const propertiesService = new PropertiesService();
 const customerService = new CustomerService();
+
 function Properties() {
     const [properties, setProperties] = useState([]);
     const [params, setParams] = useState({});

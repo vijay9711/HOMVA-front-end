@@ -3,11 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { useRoleContext } from "../context/roleContext";
 import PropertiesService from "../service/propertiesService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faXmark, faDog, faHouse, faToolbox, faFan, faSnowflake, faBed, faShower, faRuler } from "@fortawesome/free-solid-svg-icons";
-import CustomerService from "../service/customerService";
-import Swal from 'sweetalert2'
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import Swal from 'sweetalert2';
+import { faXmark, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 
 const propertiesService = new PropertiesService();
+
 export const PropertyDetailsPage = ({ propId }) => {
   const id = propId;
   const { state, dispatch } = useRoleContext();
@@ -16,6 +18,7 @@ export const PropertyDetailsPage = ({ propId }) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [editOffer, setEditOffer] = useState(false);
   const [price, setPrice] = useState();
+
   const makeOffer = () => {
     const body = {
       customerId: state.id,
@@ -23,20 +26,23 @@ export const PropertyDetailsPage = ({ propId }) => {
       price,
     };
     console.log(body);
-    propertiesService.createOffer(state.id, body).then((res)=>{
-      setEditOffer(false);
-      Swal.fire({
-        title: 'Offer submitted!',
-        icon: 'success'
+    propertiesService.createOffer(state.id, body)
+      .then((res)=>{
+        setEditOffer(false);
+        Swal.fire({
+          title: 'Offer submitted!',
+          icon: 'success'
+        });
       })
-    }).catch(e=>{
-      console.log(e);
-    })
+      .catch(e=>{
+        console.log(e);
+      });
+  }
 
-  }
   const enterOffer = () => {
-    setEditOffer({ editOffer: !editOffer });
+    setEditOffer(!editOffer);
   }
+
   useEffect(() => {
     if (property) {
       setPrice(property.price);
@@ -67,6 +73,20 @@ export const PropertyDetailsPage = ({ propId }) => {
         return 'bg-gray-200 broder-gray-300 text-gray-800'
     }
   }
+
+  const handleContactOwner = () => {
+    // Implement functionality to contact the property owner via email
+    // You can use emailjs or any other service to send emails
+    const recipient = property.ownerEmail;
+    const subject = 'Regarding Your Property';
+    const body = 'Hello, I am interested in your property. Can we discuss further?';
+    
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open the user's default email client with the pre-filled email
+    window.location.href = mailtoLink;
+  };
+
   return (
     <>
       {property && (
@@ -140,84 +160,20 @@ export const PropertyDetailsPage = ({ propId }) => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-4 mt-6 mb-3">
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faHouse}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.propertyType}
-                </label>
-                <label className="text-gray-500 text-xs">Property Type</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faToolbox}/>
+          <div className="flex items-center">
+  <span>Contact Owner</span>
+  <FontAwesomeIcon
+    icon={faEnvelope}
+    onClick={handleContactOwner}
+    className="text-blue-600 cursor-pointer hover:text-blue-700 ml-2"
+    style={{ fontSize: '1.5em' }} // Adjust the font size as needed
+  />
+</div>
 
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.builtYear?.split("-")[0]}
-                </label>
-                <label className="text-gray-500 text-xs">Year built</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faDog} />
-
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.propertyDetails?.pet ? "Allowed" : "Not Allowed"}
-                </label>
-                <label className="text-gray-500 text-xs">Pets allowed</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faFan}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.propertyDetails?.heater}
-                </label>
-                <label className="text-gray-500 text-xs">Heater</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faSnowflake}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.propertyDetails?.cooling}
-                </label>
-                <label className="text-gray-500 text-xs">Cooling</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faBed}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.bedrooms}
-                </label>
-                <label className="text-gray-500 text-xs">Bed</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faShower}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.bathrooms}
-                </label>
-                <label className="text-gray-500 text-xs">Bath</label>
-              </div>
-            </div>
-            <div className="flex items-center">
-            <FontAwesomeIcon icon={faRuler}/>
-              <div className="flex flex-col ml-4">
-                <label className="text-gray-800 text-md font-bold">
-                  {property.lotSize}
-                </label>
-                <label className="text-gray-500 text-xs">sq. feet</label>
-              </div>
-            </div>
+            {/* Other property details */}
           </div>
         </div>
       )}
     </>
   );
 }
-
