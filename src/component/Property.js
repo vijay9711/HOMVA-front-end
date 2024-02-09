@@ -3,12 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useRoleContext } from "../context/roleContext";
-import { faShower, faBed, faXmark, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faShower, faBed, faXmark, faPen, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css'
 import { PropertyDetailsPage } from "../container/propertyDetailsPage";
 import EditProperty from "../container/Owner/EditProperty";
+import CustomerService from "../service/customerService";
+import Swal from 'sweetalert2'
+
+const customerService = new CustomerService;
 export const Property = ({ data, isDelete, deleteProperty }) => {
   const { state, dispatch } = useRoleContext();
 
@@ -43,7 +47,54 @@ export const Property = ({ data, isDelete, deleteProperty }) => {
   const editProp = () => {
     console.log("reder")
     setIsOpen((prevState) => !prevState);
-
+  }
+  const makeFav = () => {
+    console.log(data);
+    setIsOpen((prevState) => !prevState);
+    if(!data.isFav){
+      let pdata = {
+        customer_id : state.id,
+        property_id: data.id
+      }
+      customerService.bookmarkProperty(state.id, pdata).then(res=>{
+        console.log(res);
+        Swal.fire({
+          title: 'Property added to your list.',
+          icon: 'success'
+        })
+        deleteProperty();
+      }).catch(e=>{
+        console.log(e);
+      })
+    }else{
+      customerService.removeBookmark(state.id, data.id).then(res=>{
+        console.log(res);
+        Swal.fire({
+          title: 'Property removed from your list.',
+          icon: 'success'
+        })
+        deleteProperty();
+      }).catch(e=>{
+        console.log(e);
+      })
+    }
+  }
+  const getTagColor = (status) => {
+    switch (status) {
+      case 'AVAILABLE':
+        return "bg-green-200 border-green-300 text-green-800";
+      case 'PENDING':
+        return "bg-yellow-200 border-yellow-300 text-yellow-800";
+      case 'CONTINGENT':
+        return "bg-red-200 border-red-300 text-red-800";
+      default:
+        return 'bg-gray-200 broder-gray-300 text-gray-800'
+    }
+  }
+  const getBookmarkStatus = () => {
+    if(data.isFav){
+      return "text-red-600";
+    }
   }
   const getAddress = () => {
     let address = `${data.address?.street}, ${data.address?.city}, ${data.address?.state} 
@@ -55,7 +106,7 @@ export const Property = ({ data, isDelete, deleteProperty }) => {
     return address;
   }
   return (
-    <div className="max-w-sm  rounded overflow-hidden shadow-md hover:shadow-lg duration-150">
+    <div className="max-w-smrounded overflow-hidden shadow-md hover:shadow-lg duration-150">
       <div
         onClick={toggleDrawer}
         className="z-10"
@@ -79,8 +130,17 @@ export const Property = ({ data, isDelete, deleteProperty }) => {
         </div>
         <div className="p-3 flex flex-col">
           <div className="flex justify-between">
-            <div>
-              <span className={`${data.listingType == "SALE" ? "bg-red-100 text-red-800 " : "bg-blue-100 text-blue-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded`}>FOR {data.listingType}</span>
+            <div className="flex items-end">
+              {
+                isDelete && <>
+                  <div className={`${getTagColor(data.propertyStatus)} rounded border px-2 items-center text-center`}>{data.propertyStatus}</div>
+                </>
+              }
+              <div className={`${data.listingType == "SALE" ? "bg-red-100 text-red-800 " : "bg-blue-100 text-blue-800"} text-xs font-medium ml-2 h-fit align-baseline px-2.5 py-0.5 rounded`}>FOR {data.listingType} </div>
+              
+              {
+                !isDelete && state?.role == "CUSTOMER" && <FontAwesomeIcon onClick={()=>makeFav()} className={`${getBookmarkStatus()} hover:text-red-600 ml-1 h-5 duration-200 cursor-pointer`} icon={faBookmark}/>
+              }
             </div>
             <div className="flex justify-between">
               <p>
